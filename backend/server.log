@@ -1,0 +1,5 @@
+npm notice run ex3a@0.0.1 dev
+npm notice run node --watch index.js
+Server running on port 3001
+POST /api/persons 200 70 - 1.360 ms {"name":"Spongebob Squarepants","number":"+38-3729-301"}
+POST /api/persons 400 31 - 0.345 ms {"name":"Spongebob Squarepants","number":"+38-3729-301"}

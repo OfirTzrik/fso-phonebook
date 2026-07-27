@@ -46,14 +46,9 @@ app.get("/api/persons", (req, res) => {
 })
 
 app.get("/api/persons/:id", (req, res) => {
-    const id = req.params.id
-    const contact = contacts.find(c => c.id === id)
-
-    if (contact) {
+    Contact.findById(req.params.id).then(contact => {
         res.json(contact)
-    } else {
-        res.status(404).end()
-    }
+    })
 })
 
 app.delete("/api/persons/:id", (req, res) => {
@@ -79,14 +74,14 @@ app.post("/api/persons", (req, res) => {
     }
 
     const contact = {
-        "id": Math.floor(Math.random() * 1000000).toString(),
         "name": body["name"],
         "number": body["number"]
     }
 
-    contacts = contacts.concat(contact)
-    
-    res.json(contact)
+    contact.save().then(savedContact => {
+        res.json(savedContact)
+        console.log(`New contact saved ${savedContact}`)
+    })
 })
 
 app.get("/info", (req, res) => {

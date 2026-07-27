@@ -4,7 +4,7 @@ const morgan = require("morgan")
 const app = express()
 const cors = require("cors")
 const mongoose = require("mongoose")
-const Contact = require("./models/phonebook")
+const Contact = require("./models/phonebook.js")
 
 app.use(express.json())
 app.use(cors())
@@ -74,10 +74,10 @@ app.post("/api/persons", (req, res) => {
         })
     }
 
-    const contact = {
+    const contact = new Contact({
         "name": body["name"],
         "number": body["number"]
-    }
+    })
 
     contact.save().then(savedContact => {
         res.json(savedContact)

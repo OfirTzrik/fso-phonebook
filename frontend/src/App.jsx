@@ -11,7 +11,8 @@ const App = () => {
 	const [newName, setNewName] = useState("")
 	const [newNumber, setNewNumber] = useState("")
 	const [searchedName, setSearchedName] = useState("")
-    const [successNotification, setSuccessNotification] = useState("")
+    const [successNotification, setSuccessNotification] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const hook = () => {
         bookService.getAll().then(initialPersons => {
@@ -53,6 +54,11 @@ const App = () => {
                 setTimeout(() => {
                     setSuccessNotification(null)
                 }, 5000)
+            }).catch(error => {
+                setErrorMessage(error.response.data.error)
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 5000)
             })
 		}
 		setNewName("")
@@ -76,6 +82,7 @@ const App = () => {
 		<>
             <h2>Phonebook</h2>
             <Notification message={successNotification} />
+            <Notification message={errorMessage} type="error" />
             <Filter value={searchedName} setHandler={setSearchedName} />
             <h2>add a new</h2>
             <NewPerson submitHandler={addNewPerson} newNameValue={newName} newNameHandler={setNewName} newNumberValue={newNumber} newNumberHandler={setNewNumber} />

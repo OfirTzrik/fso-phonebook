@@ -102,11 +102,15 @@ app.put("/api/persons/:id", (req, res, next) => {
     }).catch(error => next(error))
 })
 
-app.get("/info", (req, res) => {
+app.get("/info", (req, res, next) => {
     const numContacts = contacts.length
     const time = new Date().toString()
 
     res.send(`<p>Phonebook has info for ${numContacts} people</p><p>${time}</>`)
+
+    Contact.countDocuments({}).then(count => {
+        res.send(`<p>Phonebook has info for ${count} people</p><p>${new Date()}</>`)
+    }).catch(error => next(error))
 })
 
 const PORT = process.env.PORT

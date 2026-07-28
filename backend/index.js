@@ -84,7 +84,7 @@ app.post("/api/persons", (req, res) => {
     })
 })
 
-app.put("/api/persons/:id", (req, res) => {
+app.put("/api/persons/:id", (req, res, next) => {
     const id = req.params.id
     const { name, number } = req.body
 
@@ -93,8 +93,8 @@ app.put("/api/persons/:id", (req, res) => {
             return res.status(404).end()
         }
         
-        contact["name"] = req.name
-        contact["number"] = req.number
+        contact["name"] = name
+        contact["number"] = number
         
         return contact.save().then((updatedContact) => {
             res.json(updatedContact)

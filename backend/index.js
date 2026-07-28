@@ -95,6 +95,7 @@ app.put("/api/persons/:id", (req, res) => {
         }
 
         contact["number"] = req.number
+        console.log(contact)
         
         return contact.save().then((updatedContact) => {
             res.json(updatedContact)

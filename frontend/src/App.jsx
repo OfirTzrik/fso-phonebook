@@ -39,12 +39,16 @@ const App = () => {
                     }, 5000)
                 }
             }).catch(error => {
-                bookService.getAll().then(initialPersons => {
-                    setPersons(initialPersons)
-                })
-                setSuccessNotification(`Person '${personToUpdate.name}' number already removed`)
+                if (error.response && error.response.status === 404) {
+                    bookService.getAll().then(initialPersons => {
+                        setPersons(initialPersons)
+                    })
+                    setErrorMessage(`Person '${personToUpdate.name}' was already removed from the server`)
+                } else {
+                    setErrorMessage(error.response?.data?.error || `Failed to update '${personToUpdate.name}'`)
+                }
                 setTimeout(() => {
-                    setSuccessNotification(null)
+                    setErrorMessage(null)
                 }, 5000)
             })
 		} else {

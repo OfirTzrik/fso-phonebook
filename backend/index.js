@@ -87,15 +87,14 @@ app.post("/api/persons", (req, res) => {
 app.put("/api/persons/:id", (req, res) => {
     const id = req.params.id
     const { name, number } = req.body
-    console.log(req.body)
 
     Contact.findById(id).then(contact => {
         if (!contact) {
             return res.status(404).end()
         }
-
+        
+        contact["name"] = req.name
         contact["number"] = req.number
-        console.log(contact)
         
         return contact.save().then((updatedContact) => {
             res.json(updatedContact)
